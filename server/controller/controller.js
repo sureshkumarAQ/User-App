@@ -1,11 +1,23 @@
-const { User, userPhoto } = require("../models/model");
+const { User, userProfile } = require("../models/model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+
+const fileSizeFormatter = (bytes, decimal) => {
+  if (bytes === 0) {
+    return "0 Bytes";
+  }
+  const dm = decimal || 2;
+  const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "YB", "ZB"];
+  const index = Math.floor(Math.log(bytes) / Math.log(1000));
+  return (
+    parseFloat((bytes / Math.pow(1000, index)).toFixed(dm)) + " " + sizes[index]
+  );
+};
 
 exports.SignUp = async (req, res) => {
   //Validate request
   if (!req.body) {
-    res.status(400).send({ message: "Content can not be empty" });
+    res.status(501).send({ message: "Content can not be empty" });
     return;
   }
 
@@ -40,7 +52,7 @@ exports.Login = async (req, res) => {
   try {
     //Validate request
     if (!req.body) {
-      res.status(400).send({ message: "Fill email and password" });
+      res.status(501).send({ message: "Fill email and password" });
       return;
     }
 
@@ -73,5 +85,77 @@ exports.Login = async (req, res) => {
     res.send({ token });
   } catch (err) {
     res.status(500).send("Error while Login");
+  }
+};
+
+// Upload your profile photo
+exports.uploadProfilePhoto = async (req, res) => {
+  try {
+    const userID = req.user._id;
+
+    // Check if already uploaded or not
+
+    const profile = await userProfile.find({ user: userID });
+    // console.log(profile.length);
+
+    if (profile.length !== 0) {
+      res.status(200).send("Sorry you already uploaded your profile photo");
+    } else {
+      // console.log(`Your file is :${req.file}`);
+      const photo = await new userProfile({
+        profilePhoto: req.file,
+        user: userID,
+      });
+
+      await photo.save(photo).then((data) => {
+        res.status(201).send(data);
+      });
+    }
+  } catch (error) {
+    res.status(501).send(error.message);
+  }
+};
+
+exports.allUsers = async (req, res) => {
+  try {
+    const users = await userProfile
+      .find()
+      .select("-__v -_id")
+      .populate("user", ["name", "email", "_id"]);
+    res.status(201).send(users);
+  } catch (error) {
+    res.status(501).send(error.message);
+  }
+};
+
+exports.editUserProfile = async (req, res) => {
+  try {
+    const userID = req.user._id;
+
+    let newName, newEmail, newPassword;
+    if (req.body.name) {
+      newName = req.body.name;
+    }
+    if (req.body.email) {
+      newEmail = req.body.email;
+    }
+    if (req.body.password) {
+      newPassword = req.body.password;
+      // Hash password before updateting
+      const salt = await bcrypt.genSalt();
+      let hashedPassword = newPassword.toString();
+      newPassword = await bcrypt.hash(hashedPassword, salt);
+    }
+
+    await User.findByIdAndUpdate(userID, {
+      name: newName,
+      email: newEmail,
+      password: newPassword,
+    });
+
+    const updatedUser = await User.findById({ _id: userID });
+    res.status(201).send(updatedUser);
+  } catch (error) {
+    res.status(501).send(error.message);
   }
 };

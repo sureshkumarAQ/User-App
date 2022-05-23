@@ -30,10 +30,10 @@ userSchema.pre("save", async function (next) {
 
 // User Profile Schema with profile photo and user field
 const userProfileSchema = new Schema({
+  user: { type: Schema.Types.ObjectId, ref: "user" },
   profilePhoto: {
     type: Object,
   },
-  user: { type: Schema.Types.ObjectId, ref: "user" },
 });
 
 const User = mongoose.model("user", userSchema);
