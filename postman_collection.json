@@ -1,0 +1,201 @@
+{
+	"info": {
+		"_postman_id": "4d976377-c907-4595-ae9f-ff923ad16a77",
+		"name": "User App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20131590"
+	},
+	"item": [
+		{
+			"name": "SignUp new User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "Suresh2 Kumar ",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "suresh2@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "pass123",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "jwtoken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOGI4ZjRhY2NiMTFmYjMyOTI5OWU1ZSIsImlhdCI6MTY1MzMxMzM3Mn0.X2B7eT97BpHqdFjxUlonTy-P9Su5t3kYvuRpErWFdjA",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "password",
+						"value": "pass123",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "suresh2@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "pass123",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload user photo",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "jwtoken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOGI4ZWJjY2NiMTFmYjMyOTI5OWU1YiIsImlhdCI6MTY1MzMxNTU0NX0.E1Y9-skiJEvqk2Ql0CnuiomPUy-M8rP4B3pLxDn6PnQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "profilePhoto",
+							"type": "file",
+							"src": "/C:/Users/91797/Pictures/Saved Pictures/clg  photo/20191225_194837.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/uploadProfile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"uploadProfile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit User Profile",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "jwtoken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOGI4ZWJjY2NiMTFmYjMyOTI5OWU1YiIsImlhdCI6MTY1MzMxNTU0NX0.E1Y9-skiJEvqk2Ql0CnuiomPUy-M8rP4B3pLxDn6PnQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "Mukesh",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "pass123",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "mukesh1@gmail.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/editProfile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"editProfile"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
